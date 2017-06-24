@@ -2,10 +2,12 @@ package moonwonkim; //2016125006
 import java.io.*;
 import java.util.*;
 //행맨게임 만들기
-//예외처리 - 공백,중복
+//예외처리 - 공백,중복   
+// 엔터를 입력했을때 오류가 뜨는 이유는 readLine을 통해 문자를 읽는데 엔터를 입력하게 되면 읽을내용이 없어서 오류가 발생한다.
 //출력 - 랜덤단어, 교수대 그림
 // 추가하고 싶은점 - 단어주제를 선택해서 뽑기, 플레이어 수를 두기
-// 6/24 Hangman 생성자내에 단어를 선택하는 WordSelection을 추가하였다.
+// 6/24일 Hangman 생성자내에 단어를 선택하는 WordSelection을 추가하였다. 또한 공백을 입력받을때 시도회수가 차감하는 경우를 없앴다.
+ 
 public class Hangman{
 	int remain; // 남은 문자열
 	int fail; //실패 횟수
@@ -29,9 +31,11 @@ public class Hangman{
 		System.out.println("문자를 입력해주세요: ");
 		user = in.readLine();
 		if(user.length()==0){
-			System.out.println("null을 입력하셨습니다\n시도회수:-1 ");
+			System.out.println("enter를 입력했습니다 다시입력하세요! ");
+			fail -= 1;
 			return 0;
 		}
+			
 		return user.charAt(0);
 	}
 
@@ -43,6 +47,9 @@ public class Hangman{
 			if (input.charAt(i) == userInput){ // 사용자가 똑같은 문자열을 입력했을경우 fail에서 차감 x
 				System.out.println("\n중복된 문자입니다. \nTry Again~");
 				already = true; //already를 true값으로
+				if(userInput == '\0'){
+					fail = 0;
+				}
 			}
 		}
 		if (!already){
