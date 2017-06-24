@@ -9,7 +9,7 @@ public class HangmanTest {
 		int result = hangman.playGame();
 		
 		System.out.println();
-		//result는 틀린횟수 최대 5번틀릴수 있음 6번일경우 사망
+		//result는 틀린횟수 최대 5번틀릴수 있음 6번일경우 사망..
 		if(result <= 1){ 
 			System.out.println("Your answer is correct!!");
 			System.out.println("Your level: very perfect~!!");
