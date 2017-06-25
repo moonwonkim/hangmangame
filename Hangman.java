@@ -7,16 +7,19 @@ import java.util.*;
 //출력 - 랜덤단어, 교수대 그림
 // 추가하고 싶은점 - 단어주제를 선택해서 뽑기, 플레이어 수를 두기
 // 6/24일 Hangman 생성자내에 단어를 선택하는 WordSelection을 추가하였다. 또한 공백을 입력받을때 시도회수가 차감하는 경우를 없앴다.
- 
+// 6/25일 DrawPicture 클래스로 그림출력을 만듬 , 대소문자 구분없이 소문자로 입력받기.3
 public class Hangman{
 	int remain; // 남은 문자열
 	int fail; //실패 횟수
 	String hidden; //숨겨진 문자열
+	private DrawPicture dr; //그림그리기
 	//StringBuffer은 가변의 속성을 가짐 StringBuilder와 다르게 동기화보장
 	StringBuffer output; //출력 문자열
 	StringBuffer input; //입력 문자열
 	//IOException = 입출력 예외처리
 	public Hangman() throws IOException{ //생성자에 단어를 선택하는것을 넣엇다
+		dr = new DrawPicture();
+		dr.drawPicture(fail);
 		WordSelection ws = new WordSelection();
 		hidden = ws.selection();
 	} //행맨 생성자 
@@ -29,7 +32,7 @@ public class Hangman{
 		String user;
 		
 		System.out.println("문자를 입력해주세요: ");
-		user = in.readLine();
+		user = in.readLine().toLowerCase();
 		if(user.length()==0){
 			System.out.println("enter를 입력했습니다 다시입력하세요! ");
 			fail -= 1;
@@ -47,7 +50,7 @@ public class Hangman{
 			if (input.charAt(i) == userInput){ // 사용자가 똑같은 문자열을 입력했을경우 fail에서 차감 x
 				System.out.println("\n중복된 문자입니다. \nTry Again~");
 				already = true; //already를 true값으로
-				if(userInput == '\0'){
+				if(userInput == '\0'){ //엔터를 또 입력
 					fail = 0;
 				}
 			}
@@ -86,7 +89,7 @@ public class Hangman{
 				+ "[" + output + "]");
 		System.out.println("시도가능한 횟수: " + (6-fail) +"입니다"); 
 		
-		drawPicture(); //그림 그리기
+		dr.drawPicture(fail); //그림 그리기
 		do{
 			CheckString(readString());
 			System.out.println("단어 " + hidden.length() + "글자 \n"
@@ -96,7 +99,7 @@ public class Hangman{
 				System.out.println("마지막 기회입니다 신중하세요!"); 
 			}
 			
-			drawPicture(); //틀린 횟수에 따른 그림 출력
+			dr.drawPicture(fail); //틀린 횟수에 따른 그림 출력
 		}while((remain > 0) && (fail < 6)); //실패기회는 6번 
 		
 		return fail;
@@ -105,82 +108,6 @@ public class Hangman{
 
 	
 	
-	
-	public void drawPicture(){
-		System.out.println("   \n\n   ");
-		System.out.println("   |----------------|   ");
-	
-		switch(fail){ //실패 횟수만큼 그림그리기
-		
-		case 0:
-			System.out.println("            |  ");
-			System.out.println("            |  ");
-			System.out.println("            |  ");
-			System.out.println("            |  ");
-			System.out.println("            |  ");
-			System.out.println("            |  ");
-			System.out.println("   \n  ");
-			break;	
-			
-		case 1:
-			System.out.println("            |  ");
-			System.out.println("            ○  ");
-			System.out.println("            |  ");
-			System.out.println("            |  ");
-			System.out.println("            |  ");
-			System.out.println("            |  ");
-			System.out.println("       ===========  ");
-			System.out.println("   \n  ");
-			break;	
-		case 2:
-			System.out.println("            |  ");
-			System.out.println("            ○  ");
-			System.out.println("          -----  ");
-			System.out.println("            |  ");
-			System.out.println("            |  ");
-			System.out.println("            |  ");
-			System.out.println("       ===========  ");
-			System.out.println("   \n  ");
-			break;	
-		case 3:
-			System.out.println("            |  ");
-			System.out.println("            ○  ");
-			System.out.println("          -----  ");
-			System.out.println("          |   |  ");
-			System.out.println("            |  ");
-			System.out.println("            |  ");
-			System.out.println("       ===========  ");
-			System.out.println("   \n  ");
-			break;	
-
-		case 4:
-			System.out.println("            |  ");
-			System.out.println("            ○  ");
-			System.out.println("          -----  ");
-			System.out.println("          |   |  ");
-			System.out.println("            |  ");
-			System.out.println("          |   |");
-			System.out.println("            |  ");
-			System.out.println("       ===========  ");
-			System.out.println("   \n  ");
-			break;	
-		case 5:
-			System.out.println("            |  ");
-			System.out.println("            ○  ");
-			System.out.println("          -----  ");
-			System.out.println("          |   |  ");
-			System.out.println("            |  ");
-			System.out.println("          |   |");
-			System.out.println("       ===========  ");
-			System.out.println("   \n  ");
-			break;	
-		case 6:
-			System.out.println("           X-X  ");
-			System.out.println("       ===========  ");
-			System.out.println("| -------You are DIE ----- |  ");
-			break;
-		}
-	}
 
 	
 }

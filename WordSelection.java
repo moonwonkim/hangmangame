@@ -73,7 +73,7 @@ public class WordSelection{
 				}else if(Vegetable == 2){
 					return "cucumber";
 				}else if(Vegetable == 3){
-					return "pepper";
+					return "broccoli";
 				}else if(Vegetable == 4){
 					return "bean";
 				}
